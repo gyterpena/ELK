@@ -1,0 +1,135 @@
+{
+  "order": 0,
+  "index_patterns": [
+    "logstash-vulnwhisperer-*"
+  ],
+  "settings": {
+    "index": {
+      "routing": {
+        "allocation": {
+          "total_shards_per_node": "2"
+        }
+      },
+      "mapping": {
+        "total_fields": {
+          "limit": "3000"
+        }
+      },
+      "refresh_interval": "5s",
+      "number_of_shards": "1",
+      "number_of_replicas": "0"
+    }
+  },
+  "mappings": {
+    "_default_": {
+      "dynamic_templates": [
+        {
+          "message_field": {
+            "path_match": "message",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "text",
+              "norms": false
+            }
+          }
+        },
+        {
+          "string_fields": {
+            "match": "*",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "text",
+              "norms": false,
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "plugin_id": {
+          "type": "integer"
+        },
+        "last_updated": {
+          "type": "date",
+          "doc_values": true
+        },
+        "geoip": {
+          "dynamic": true,
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "ip",
+              "doc_values": true
+            },
+            "latitude": {
+              "type": "float",
+              "doc_values": true
+            },
+            "location": {
+              "type": "geo_point",
+              "doc_values": true
+            },
+            "longitude": {
+              "type": "float",
+              "doc_values": true
+            }
+          }
+        },
+        "risk_score": {
+          "type": "float"
+        },
+        "source": {
+          "index": "false",
+          "type": "text"
+        },
+        "synopsis": {
+          "index": "false",
+          "type": "text"
+        },
+        "see_also": {
+          "index": "false",
+          "type": "text"
+        },
+        "@timestamp": {
+          "type": "date",
+          "doc_values": true
+        },
+        "cve": {
+          "index": "false",
+          "type": "text"
+        },
+        "solution": {
+          "index": "false",
+          "type": "text"
+        },
+        "port": {
+          "index": "false",
+          "type": "integer"
+        },
+        "host": {
+          "type": "text"
+        },
+        "@version": {
+          "index": "false",
+          "type": "text"
+        },
+        "risk": {
+          "index": "false",
+          "type": "text"
+        },
+        "assign_ip": {
+          "type": "ip"
+        },
+        "cvss": {
+          "type": "float"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
