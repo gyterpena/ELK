@@ -1,0 +1,435 @@
+{
+  "order": 1,
+  "index_patterns": [
+    "winlogbeat-*"
+  ],
+  "settings": {
+    "index": {
+      "mapping": {
+        "total_fields": {
+          "limit": "10000"
+        }
+      },
+      "refresh_interval": "60s",
+      "number_of_routing_shards": "30",
+      "number_of_shards": "1"
+    }
+  },
+  "mappings": {
+    "doc": {
+      "_meta": {
+        "version": "6.2.4"
+      },
+      "date_detection": false,
+      "dynamic_templates": [
+        {
+          "srcip": {
+            "path_match": "src.ip",
+            "mapping": {
+              "type": "ip"
+            }
+          }
+        },
+        {
+          "dstip": {
+            "path_match": "dst.ip",
+            "mapping": {
+              "type": "ip"
+            }
+          }
+        },
+        {
+          "srcport": {
+            "path_match": "src.port",
+            "mapping": {
+              "type": "long"
+            }
+          }
+        },
+        {
+          "dstport": {
+            "path_match": "dst.port",
+            "mapping": {
+              "type": "long"
+            }
+          }
+        },
+        {
+          "fields": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "fields.*"
+          }
+        },
+        {
+          "docker.container.labels": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "docker.container.labels.*"
+          }
+        },
+        {
+          "event_data": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "event_data.*"
+          }
+        },
+        {
+          "user_data": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "user_data.*"
+          }
+        },
+        {
+          "strings_as_keyword": {
+            "mapping": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "activity_id": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "geoip": {
+          "dynamic": true,
+          "properties": {
+            "src.ip": {
+              "type": "ip"
+            },
+            "dst.ip": {
+              "type": "ip"
+            },
+            "dst.latitude": {
+              "type": "half_float"
+            },
+            "src.latitude": {
+              "type": "half_float"
+            },
+            "dst.longitude": {
+              "type": "half_float"
+            },
+            "src.longitude": {
+              "type": "half_float"
+            },
+            "dst.location": {
+              "type": "geo_point"
+            },
+            "src.location": {
+              "type": "geo_point"
+            }
+          }
+        },
+        "src": {
+          "dynamic": true,
+          "properties": {
+            "ip": {
+              "type": "ip"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "dst": {
+          "dynamic": true,
+          "properties": {
+            "ip": {
+              "type": "ip"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "blacklist.fqdn": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blacklist.src": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blacklist.dst": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blacklist.combinedsthost": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blaclist.combinesrchost": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blaclist.combine": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blaclist.combinesrcip": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "blaclist.combinedstip": {
+          "dynamic": true,
+          "properties": {}
+        },
+        "beat": {
+          "properties": {
+            "hostname": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "name": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "timezone": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "version": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            }
+          }
+        },
+        "computer_name": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "docker": {
+          "properties": {
+            "container": {
+              "properties": {
+                "id": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "image": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "labels": {
+                  "type": "object"
+                },
+                "name": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "error": {
+          "properties": {
+            "code": {
+              "type": "long"
+            },
+            "message": {
+              "norms": false,
+              "type": "text"
+            },
+            "type": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            }
+          }
+        },
+        "event_data": {
+          "type": "object"
+        },
+        "event_id": {
+          "type": "long"
+        },
+        "fields": {
+          "type": "object"
+        },
+        "keywords": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "kubernetes": {
+          "properties": {
+            "annotations": {
+              "type": "object"
+            },
+            "container": {
+              "properties": {
+                "image": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "name": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "labels": {
+              "type": "object"
+            },
+            "namespace": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "node": {
+              "properties": {
+                "name": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "pod": {
+              "properties": {
+                "name": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "level": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "log_name": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "message": {
+          "norms": false,
+          "type": "text"
+        },
+        "message_error": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "meta": {
+          "properties": {
+            "cloud": {
+              "properties": {
+                "availability_zone": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "instance_id": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "instance_name": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "machine_type": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "project_id": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "provider": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "region": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "opcode": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "process_id": {
+          "type": "long"
+        },
+        "provider_guid": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "record_number": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "related_activity_id": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "source_name": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "tags": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "task": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "thread_id": {
+          "type": "long"
+        },
+        "type": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
+        "user": {
+          "properties": {
+            "domain": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "identifier": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "name": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "type": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            }
+          }
+        },
+        "user_data": {
+          "type": "object"
+        },
+        "version": {
+          "type": "long"
+        },
+        "xml": {
+          "norms": false,
+          "type": "text"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
