@@ -1,0 +1,22 @@
+{
+  "order": 0,
+  "index_patterns": [
+    "*"
+  ],
+  "settings": {
+    "index": {
+      "codec": "best_compression",
+      "refresh_interval": "60s",
+      "number_of_shards": "1",
+      "translog": {
+        "retention": {
+          "age": "4h"
+        },
+        "durability": "async"
+      },
+      "number_of_replicas": "0"
+    }
+  },
+  "mappings": {},
+  "aliases": {}
+}
