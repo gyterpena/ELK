@@ -1,0 +1,129 @@
+{
+  "order": 1,
+  "index_patterns": [
+    "suricata*"
+  ],
+  "settings": {
+    "index": {
+      "number_of_replicas": "0",
+      "refresh_interval": "60s"
+    }
+  },
+  "mappings": {
+    "doc": {
+      "dynamic_templates": [
+        {
+          "message_field": {
+            "path_match": "message",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "text",
+              "norms": false
+            }
+          }
+        },
+        {
+          "string_fields": {
+            "match": "*",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "text",
+              "norms": false,
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "raw": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "@version": {
+          "type": "keyword"
+        },
+        "lookup": {
+          "dynamic": true,
+          "properties": {
+            "ip": {
+              "type": "ip"
+            },
+            "geoip.latitude": {
+              "type": "half_float"
+            },
+            "geoip.longitude": {
+              "type": "half_float"
+            },
+            "geoip.location": {
+              "type": "geo_point"
+            },
+            "host": {
+              "type": "text"
+            },
+            "blk_host": {
+              "dynamic": true,
+              "properties": {}
+            },
+            "blk_ip": {
+              "dynamic": true,
+              "properties": {}
+            }
+          }
+        },
+        "src": {
+          "dynamic": true,
+          "properties": {
+            "ip": {
+              "type": "ip"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "dst": {
+          "dynamic": true,
+          "properties": {
+            "ip": {
+              "type": "ip"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "dest_ip": {
+          "type": "ip",
+          "fields": {
+            "raw": {
+              "type": "keyword"
+            },
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+        },
+        "src_ip": {
+          "type": "ip",
+          "fields": {
+            "raw": {
+              "type": "keyword"
+            },
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
