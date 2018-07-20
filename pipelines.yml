@@ -1,0 +1,12 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+- pipeline.id: default
+  path.config: "/etc/logstash/conf.d/default/"
+  pipeline.batch.size: 500
+  pipeline.batch.delay: 150
+  pipeline.workers: 2
+- pipeline.id: inputs
+  path.config: "/etc/logstash/conf.d/inputs/"
+  pipeline.workers: 1
