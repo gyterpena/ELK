@@ -1,0 +1,6 @@
+@daily curator --config /etc/curator/curator_config.yml /etc/curator/action.yml
+@daily python /etc/logstash/scripts/pullTLS.py /etc/logstash/translate/malwareTLS.json
+*/15 * * * * /etc/logstash/scripts/pullURL.py /etc/logstash/translate/url.json
+@daily source /etc/logstash/scripts/combine/venv/bin/activate && cd /etc/logstash/scripts/combine/ && ./combine.py
+15 0 * * * python /etc/logstash/scripts/dual_convert.py
+
