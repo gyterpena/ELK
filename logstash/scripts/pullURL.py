@@ -18,13 +18,13 @@ for line in response.readlines():
                 #l = line.re.strip().split('\",\"')
                 l = re.compile('\",\"').split(line)
                 try:
-                        id = l[0]
+                        id = l[0][1:]
                         dateadded = l[1]
                         url = l[2]
                         urlstatus = l[3]
                         threat = l[4]
                         tags = l[5]
-                        urlhaus_link = l[6]
+                        urlhaus_link = l[6][:-3]
                 except Exception as err:
                         print ('Error while unpacking')
                 finally:
