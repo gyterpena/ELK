@@ -1,0 +1,11 @@
+/var/log/processed/events.json
+{
+        rotate 3
+        missingok
+        notifempty
+        delaycompress
+	compress
+    postrotate
+    endscript
+}
+

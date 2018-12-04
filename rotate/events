@@ -1,0 +1,11 @@
+/var/log/raw/events.json
+{
+        rotate 2 
+        missingok
+        notifempty
+        delaycompress
+	compress
+    postrotate
+    endscript
+}
+
