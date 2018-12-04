@@ -4,8 +4,11 @@ kibana                6.5.1
 logstash              6.5.1
 
 #Rsyslog 8.39 compiled with redis support on Centos 7.5
-
 yum install -y gcc libestr-devel libfastjson4-devel zlib-devel libuuid-devel libgcrypt-devel libcurl-devel systemd-devel hiredis-devel
+
+#ubuntu 18.4.1
+apt-get install gcc pkg-config libestr-dev libfastjson-dev zlib1g-dev libsystemd-dev uuid-dev libgcrypt20-dev libcurl4-gnutls-dev libhiredis-dev
+
 wget http://www.rsyslog.com/files/download/rsyslog/rsyslog-8.39.0.tar.gz
 tar -zxvf rsyslog-8.39.0.tar.gz
 cd rsyslog-8.39.0
