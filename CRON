@@ -3,4 +3,9 @@
 */15 * * * * /etc/logstash/scripts/pullURL.py /etc/logstash/translate/url.json
 @daily source /etc/logstash/scripts/combine/venv/bin/activate && cd /etc/logstash/scripts/combine/ && ./combine.py && /etc/logstash/scripts/dual_convert.py
 
+*/15 * * * * /usr/sbin/logrotate /etc/logstash/rotate/events
+*/15 * * * * /usr/sbin/logrotate /etc/logstash/rotate/processed_events
+25 0 * * * /usr/bin/find /var/log/logstash/ -iname "*.gz" -mtime +3 -daystart -delete
+26 0 * * * /usr/bin/find /var/log/logstash/ -iname "*.log" -mtime +3 -daystart -delete
+
 
