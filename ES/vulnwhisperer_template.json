@@ -5,9 +5,12 @@
   ],
   "settings": {
     "index": {
+      "codec": "best_compression",
       "routing": {
         "allocation": {
-          "total_shards_per_node": "2"
+          "require": {
+            "box_type": "hot"
+          }
         }
       },
       "mapping": {
@@ -15,119 +18,236 @@
           "limit": "3000"
         }
       },
-      "refresh_interval": "5s",
+      "refresh_interval": "60s",
       "number_of_shards": "1",
-      "number_of_replicas": "0"
+      "number_of_replicas": "1"
     }
   },
   "mappings": {
-    "_default_": {
-      "dynamic_templates": [
-        {
-          "message_field": {
-            "path_match": "message",
-            "match_mapping_type": "string",
-            "mapping": {
-              "type": "text",
-              "norms": false
-            }
+    "properties": {
+      "risk_score_name": {
+        "type": "keyword"
+      },
+      "source": {
+        "type": "keyword"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "see_also": {
+        "type": "keyword"
+      },
+      "ssl": {
+        "type": "keyword"
+      },
+      "cvss_temporal_vector": {
+        "type": "keyword"
+      },
+      "path": {
+        "type": "keyword"
+      },
+      "protocol": {
+        "type": "keyword"
+      },
+      "solution": {
+        "type": "keyword"
+      },
+      "host": {
+        "type": "keyword"
+      },
+      "results": {
+        "type": "text"
+      },
+      "last_updated": {
+        "type": "date"
+      },
+      "risk_number": {
+        "type": "integer"
+      },
+      "fqdn": {
+        "type": "keyword"
+      },
+      "cvss_temporal": {
+        "type": "float"
+      },
+      "impact": {
+        "norms": false,
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
           }
         },
-        {
-          "string_fields": {
-            "match": "*",
-            "match_mapping_type": "string",
-            "mapping": {
-              "type": "text",
-              "norms": false,
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 256
-                }
-              }
-            }
+        "type": "text"
+      },
+      "ip": {
+        "type": "ip"
+      },
+      "plugin_output": {
+        "norms": false,
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        },
+        "type": "text"
+      },
+      "dns": {
+        "type": "keyword"
+      },
+      "host_start": {
+        "type": "date"
+      },
+      "cvss_base": {
+        "type": "float"
+      },
+      "cvss3": {
+        "type": "float"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "port": {
+        "type": "integer"
+      },
+      "system_type": {
+        "type": "keyword"
+      },
+      "scan_name": {
+        "type": "keyword"
+      },
+      "cvss": {
+        "type": "float"
+      },
+      "exploitability": {
+        "norms": false,
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        },
+        "type": "text"
+      },
+      "plugin_family": {
+        "type": "keyword"
+      },
+      "plugin_id": {
+        "type": "keyword"
+      },
+      "cvss3_base": {
+        "type": "float"
+      },
+      "description": {
+        "norms": false,
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        },
+        "type": "text"
+      },
+      "cvss3_temporal_vector": {
+        "type": "keyword"
+      },
+      "cve": {
+        "type": "keyword"
+      },
+      "cvss_vector": {
+        "type": "keyword"
+      },
+      "vendor_reference": {
+        "type": "keyword"
+      },
+      "@version": {
+        "type": "keyword"
+      },
+      "asset_uuid": {
+        "type": "keyword"
+      },
+      "ip_status": {
+        "type": "keyword"
+      },
+      "operating_system": {
+        "type": "keyword"
+      },
+      "cvss3_vector": {
+        "type": "keyword"
+      },
+      "host_end": {
+        "type": "date"
+      },
+      "pci_vuln": {
+        "type": "keyword"
+      },
+      "geoip": {
+        "dynamic": true,
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "ip"
+          },
+          "latitude": {
+            "type": "float"
+          },
+          "location": {
+            "type": "geo_point"
+          },
+          "longitude": {
+            "type": "float"
           }
         }
-      ],
-      "properties": {
-        "plugin_id": {
-          "type": "integer"
-        },
-        "last_updated": {
-          "type": "date",
-          "doc_values": true
-        },
-        "geoip": {
-          "dynamic": true,
-          "type": "object",
-          "properties": {
-            "ip": {
-              "type": "ip",
-              "doc_values": true
-            },
-            "latitude": {
-              "type": "float",
-              "doc_values": true
-            },
-            "location": {
-              "type": "geo_point",
-              "doc_values": true
-            },
-            "longitude": {
-              "type": "float",
-              "doc_values": true
-            }
+      },
+      "risk_score": {
+        "type": "float"
+      },
+      "synopsis": {
+        "type": "keyword"
+      },
+      "history_id": {
+        "type": "keyword"
+      },
+      "plugin_name": {
+        "type": "keyword"
+      },
+      "vulnerability_state": {
+        "type": "keyword"
+      },
+      "@timestamp": {
+        "type": "date"
+      },
+      "scan_reference": {
+        "type": "keyword"
+      },
+      "cvss3_temporal": {
+        "type": "float"
+      },
+      "assign_ip": {
+        "type": "ip"
+      },
+      "risk": {
+        "type": "keyword"
+      },
+      "scan_id": {
+        "type": "keyword"
+      },
+      "threat": {
+        "type": "text"
+      },
+      "asset": {
+        "norms": false,
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
           }
-        },
-        "risk_score": {
-          "type": "float"
-        },
-        "source": {
-          "index": "false",
-          "type": "text"
-        },
-        "synopsis": {
-          "index": "false",
-          "type": "text"
-        },
-        "see_also": {
-          "index": "false",
-          "type": "text"
-        },
-        "@timestamp": {
-          "type": "date",
-          "doc_values": true
-        },
-        "cve": {
-          "index": "false",
-          "type": "text"
-        },
-        "solution": {
-          "index": "false",
-          "type": "text"
-        },
-        "port": {
-          "index": "false",
-          "type": "integer"
-        },
-        "host": {
-          "type": "text"
-        },
-        "@version": {
-          "index": "false",
-          "type": "text"
-        },
-        "risk": {
-          "index": "false",
-          "type": "text"
-        },
-        "assign_ip": {
-          "type": "ip"
-        },
-        "cvss": {
-          "type": "float"
         }
+      },
+      "category": {
+        "type": "keyword"
       }
     }
   },
