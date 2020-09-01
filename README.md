@@ -1,7 +1,7 @@
-elasticsearch         6.5.1                     
+elasticsearch         7.8                    
 elasticsearch-curator 5.5.4-1                    
-kibana                6.5.1
-logstash              6.5.1
+kibana                7.8
+logstash              7.8
 
 #Rsyslog 8.39 compiled with redis support on Centos 7.5
 
